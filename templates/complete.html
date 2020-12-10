@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+	body {
+		border: 200px;
+        max-width: 800px;
+        margin: auto;
+        padding: 1em;
+        background: #464647;;
+        color: #fff;
+        font: 16px/1.6 menlo, monospace;
+        text-align: center;
+    }
+</style>
+<body>
+	<fieldset>
+{% if filename %}
+	<div>
+		<img src="{{ url_for('send_image', filename=filename) }}">
+	</div>
+	<p> Uploaded file is: {{filename}}</p>
+{% endif %}
+</fieldset>
+</body>
+</html>

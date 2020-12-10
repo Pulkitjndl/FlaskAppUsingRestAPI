@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Uploader</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+
+<style>
+    body {
+        max-width: 800px;
+        margin: auto;
+        padding: 1em;
+        background: #464647;;
+        color: #fff;
+        font: 16px/1.6 menlo, monospace;
+        text-align: center;
+    }
+
+    a {
+        color: #fff;
+    }
+
+    .notice {
+        font-size: 80%;
+    }
+
+    #drop {
+        font-weight: bold;
+        text-align: center;
+        padding: 1em 0;
+        margin: 1em 0;
+        color: #555;
+        border: 2px dashed #555;
+        border-radius: 7px;
+        cursor: default;
+    }
+
+    #drop.hover {
+        color: #f00;
+        border-color: #f00;
+        border-style: solid;
+        box-shadow: inset 0 3px 4px #888;
+    }
+    #upload-button{
+        color: #555;
+        border-radius: 20px;
+        background-color: rgb(201, 207, 212);
+        size: 20px;
+    }
+    footer{
+        color: #fff;
+        size: 20px;
+
+    }
+
+</style>
+
+<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    
+    <h3>Image Uploader</h3>
+    <p>Upload an image for everyone to see. Valid images are pushed to everyone
+    currently connected.</p>
+
+    <strong>Files:</strong><br>
+    <input id="file-picker" type="file" name="file" accept="image/*" multiple>
+    <div id="drop">or drop image here</div>
+
+    <br/>
+    <div id="msg"></div>
+    <input type="submit" value="Upload!" id="upload-button" class="hidden">
+</form>
+
+</body>
+<footer>
+    <h1>Developed By Pulkit</h1>
+    <a href="https://github.com/Pulkitjndl">https://github.com/Pulkitjndl</a></p>
+</footer>
+<script>
+
+    $("#file-picker").change(function(){
+
+        var input = document.getElementById('file-picker');
+
+        for (var i=0; i<input.files.length; i++)
+        {
+        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+
+            if ((ext == 'jpg') || (ext == 'png'))
+            {
+                $("#msg").text("Files are supported")
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                document.getElementById("file-picker").value ="";
+            }
+
+        }
+
+
+    } );
+
+    function handle_hover(e) {
+            e.originalEvent.stopPropagation();
+            e.originalEvent.preventDefault();
+            e.target.className = (e.type == 'dragleave' || e.type == 'drop') ? '' : 'hover';
+        }
+        $('#drop').bind('drop', function (e) {
+            handle_hover(e);
+            if (e.originalEvent.dataTransfer.files.length < 1) {
+                return;
+            }
+            file_select_handler(e.originalEvent.dataTransfer.files[0]);
+        }).bind('dragenter dragleave dragover', handle_hover);
+
+</script>
+</html>
