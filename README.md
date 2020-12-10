@@ -1,6 +1,6 @@
 # FlaskAppUsingRestAPI
 
-#instructions to follow
+# instructions to follow
 
 This application is using python3 compiler.
 Please use python3.5 or >3.5
